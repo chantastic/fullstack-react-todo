@@ -17,9 +17,15 @@
 - `form` how you wrap up an entire form
   - `onSubmit` (remember what we learned about camelCased attributes with more than one word?)
     - takes a function (remember what we leraned about javascript-y attributes?)
+
+## 2 JavaScript
+
 - fixing and utilizing the form
   - `event.preventDefault` (don't submit the form with a page refresh)
   - `event.currentTarget` (the form)
   - `event.currentTarget[{id}]` get form element by id
   - `event.currentTarget[{id}].value` get form element by id
   - `event.currentTarget.reset()` reset the form
+- extract a normal function to handle the event
+- add some form of validation (can't submit empty items?)
+- point-free event handling
