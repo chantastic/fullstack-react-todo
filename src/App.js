@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
@@ -15,6 +14,18 @@ function App() {
     event.currentTarget.reset();
   }
 
+  let todoItems = [
+    "Learn React",
+    "Join Lunch Dev Discord",
+    "Listen to React Podcast",
+  ].map((item) => (
+    <li>
+      <span>{item}</span>
+      <button type="button">✏️</button>
+      <button type="button">🗑</button>
+    </li>
+  ));
+
   return (
     <main>
       <form onSubmit={handleSubmit}>
@@ -23,11 +34,7 @@ function App() {
         <button type="submit">Add Todo</button>
       </form>
 
-      <ul>
-        <li>Learn React</li>
-        <li>Join Lunch Dev Discord</li>
-        <li>Listen to React Podcast</li>
-      </ul>
+      <ul>{todoItems}</ul>
     </main>
   );
 }

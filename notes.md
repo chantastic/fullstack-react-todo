@@ -3,6 +3,17 @@
 - `main` regioon of main content (assessible as landmark)
 - `li` list item (works with a wrapper)
 - `ul` unordered list (bestows meaning to the list-items) (show `ol`, which we will learn later and nod to `dl`, which is used for lists of key-value pairs)
+- `button[type="button"]`
+
+  - start with text "edit" and "delete"
+  - use emoji but wrap
+    - `span` is useful for an piece of text (inline, meaning there is no line-break)
+      - attr `role="img"` (the role of the span)
+      - attr `aria-label="Delet"` move the readable text into an aria-label
+        - aria attributes help assistive technologies — like screenreaders — how to read this visual element as text
+        - https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html
+        - can also be used to wrap our todo item text
+
 - `input[type="text"]` (others can be checkbox, number , radio, which we'll explore later)
   - inputs require labels for accessibility. can click on either label or input
   - wrap with label
@@ -29,3 +40,11 @@
 - extract a normal function to handle the event
 - add some form of validation (can't submit empty items?)
 - point-free event handling
+- we can alse use JavaScript to eleminate duplication
+  - let's create an array of these elements
+  - use our curlies (remember above) to interpolate those values into the `ul` item with JavaScript
+- we can remove the duplication by mapping over text values and applying the duplication
+  - this is just an Array, so we can call map on it with no change. `todoItems = [...].map()`
+  - now we can split the part that is different from the part that is the same:
+    - `["Learn React", "Join Lunch Dev Discord", ...]`
+    - `item => <li>...</li>`
