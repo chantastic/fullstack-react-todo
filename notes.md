@@ -1,15 +1,20 @@
 ## 1. Markup
 
 - `main` regioon of main content (assessible as landmark)
+- `header` - for the
 - `li` list item (works with a wrapper)
 - `ul` unordered list (bestows meaning to the list-items) (show `ol`, which we will learn later and nod to `dl`, which is used for lists of key-value pairs)
+- `style` is weird in JSX. uses `{}`
+  - multi-words are camelCased
+  - values in quotes (strings)
+  - logical padding values
 - `button[type="button"]`
 
   - start with text "edit" and "delete"
   - use emoji but wrap
     - `span` is useful for an piece of text (inline, meaning there is no line-break)
       - attr `role="img"` (the role of the span)
-      - attr `aria-label="Delet"` move the readable text into an aria-label
+      - attr `aria-label="delete"` move the readable text into an aria-label
         - aria attributes help assistive technologies — like screenreaders — how to read this visual element as text
         - https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html
         - can also be used to wrap our todo item text
@@ -19,6 +24,7 @@
   - wrap with label
   - `for` attribute. this is a little funky in React because React uses the DOM attribute name: `htmlFor`
     - Now the label is linked by `id` and markup can change
+    - (a trick here is to use camelCase and/or underscores because they're easire to reference in the JS form object. show it both ways)
   - `autofocus/autoFocus` attribute
     - can use no value (truthy)
     - can use JS values that evaluate to truthy (using braces)
@@ -100,8 +106,12 @@ Now that we have these items stripped out as JavaScript data, let's put them in 
   - update `updateTodoItemWithId` to call `concludeEditing`
   - now you can only edit one at a time
 
-- group logical state and actions with `useReducer`
+## Organization APIs group logical state and actions with `useReducer`
 
-  - ...
+Our component is already a but unruly, even with just a few features. We have state, we have functions to manipulate, and components to display it all inside a single component. And they _have_ to be that way because they all reference the same local state. In this next section, we're going to utilize React APIs that make colocating these concerns about state, and sharing it across components, much easier. We'll also remove a good ammount of the required namespacing and make these functions much more isolated and navigable.
+
+- use useReducer for editing state and state manipulation
+
+  -
 
 - …`useContext`, "controller components", `modularization`
