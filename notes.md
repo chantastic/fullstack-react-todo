@@ -163,6 +163,7 @@ Our component is already a but unruly, even with just a few features. We have st
     - delegation for style, using function
     - now we can reconstruct everything from the outside
     - NEXT steps: can i have a single announcment queue? or does it make sense to keep them very separate?
+    - CREATE MODULE!
 
 - colocate all Editing state
 
@@ -172,5 +173,6 @@ Our component is already a but unruly, even with just a few features. We have st
     - `useReducer((_, nextValue) => nextValue, -1)`
   - update everything to `dispatch`
   - add `action.type` to dispatch
+    - removes the implementation detail of `-1`
 
 - …`useContext`, "controller components", `modularization`
