@@ -2,19 +2,19 @@ import * as React from "react";
 import "./App.css";
 
 function App() {
-  let [todoItems, updateTodoItems] = React.useState([
-    { id: 100, name: "Learn React" },
-    { id: 101, name: "Join Lunch Dev Discord" },
-    { id: 102, name: "Listen to React Podcast" },
-  ]);
+  let [todoItems, updateTodoItems] = React.useState([]);
 
   let todoItemElements = todoItems.map((item) => (
     <li key={item.id}>
-      <span>{item.name}</span>
+      <span>{item.title}</span>
       <button type="button">✏️</button>
       <button type="button">🗑</button>
     </li>
   ));
+
+  function addTodoItem(title) {
+    return updateTodoItems([...todoItems, { id: Date.now(), title: title }]);
+  }
 
   function handleSubmit(event) {
     let text = event.currentTarget["new-item-input"].value.trim();
@@ -25,7 +25,7 @@ function App() {
       return alert("Can't add blank todos...");
     }
 
-    alert(`New todo submitted: ${event.currentTarget["new-item-input"].value}`);
+    addTodoItem(text);
     event.currentTarget.reset();
   }
 
@@ -39,8 +39,21 @@ function App() {
 
       <ul>{todoItemElements}</ul>
 
+      <h2>Debugging</h2>
       <button type="button" onClick={() => updateTodoItems([])}>
         obliterate state
+      </button>
+      <button
+        type="button"
+        onClick={() =>
+          updateTodoItems([
+            { id: 100, title: "Learn React" },
+            { id: 101, title: "Join Lunch Dev Discord" },
+            { id: 102, title: "Listen to React Podcast" },
+          ])
+        }
+      >
+        seed state
       </button>
     </main>
   );

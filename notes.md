@@ -28,6 +28,7 @@
 - `form` how you wrap up an entire form
   - `onSubmit` (remember what we learned about camelCased attributes with more than one word?)
     - takes a function (remember what we leraned about javascript-y attributes?)
+- Because we used semantic markup, forms work like forms. I can tab around, I can submit with enter, anything i want
 
 ## 2 JavaScript
 
@@ -63,3 +64,5 @@ Now that we have these items stripped out as JavaScript data, let's put them in 
   - `[todoItems, updateToDos]` — a single updater function for the state
     - anything we put in here will obliterate the state with whatever we put in there
     - add a button that just calls the function with single todo
+  - add `addTodoItem(title)` function and call it when form is submitted
+  - now clear out our hard-coded state
