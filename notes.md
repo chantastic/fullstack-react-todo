@@ -91,9 +91,17 @@ Now that we have these items stripped out as JavaScript data, let's put them in 
   - `handleEditingSubmit` passing along both the event and the item
 
 - tidy things up a bit by moving editing into a different state (editing only one at a time. but re-thinking it first)
+
   - don't love that we're manipulating the objects and having to reset them. this will introduce some bizarre code to block on editing one at a time.
   - (my goal wasn't to show you a wrong way to do it but show you what happens if you focus too much on mutating data instead of creating more state.)
   - `[editing, editId] = React.useState(-1)`
   - remove `editTodoItemWithId` because we now have that as our updater function
   - leave `cancelEditingTodo` as a implementation convenience — is a weird API to reset `(-1)`
   - update `updateTodoItemWithId` to call `concludeEditing`
+  - now you can only edit one at a time
+
+- group logical state and actions with `useReducer`
+
+  - ...
+
+- …`useContext`, "controller components", `modularization`
