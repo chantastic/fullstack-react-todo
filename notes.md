@@ -3,3 +3,23 @@
 - `main` regioon of main content (assessible as landmark)
 - `li` list item (works with a wrapper)
 - `ul` unordered list (bestows meaning to the list-items) (show `ol`, which we will learn later and nod to `dl`, which is used for lists of key-value pairs)
+- `input[type="text"]` (others can be checkbox, number , radio, which we'll explore later)
+  - inputs require labels for accessibility. can click on either label or input
+  - wrap with label
+  - `for` attribute. this is a little funky in React because React uses the DOM attribute name: `htmlFor`
+    - Now the label is linked by `id` and markup can change
+  - `autofocus/autoFocus` attribute
+    - can use no value (truthy)
+    - can use JS values that evaluate to truthy (using braces)
+    - attributes name is camelCased
+- `button`
+  - type `button|submit|reset` (most buttons are buttons but we're in a form so this will be a `submit`)
+- `form` how you wrap up an entire form
+  - `onSubmit` (remember what we learned about camelCased attributes with more than one word?)
+    - takes a function (remember what we leraned about javascript-y attributes?)
+- fixing and utilizing the form
+  - `event.preventDefault` (don't submit the form with a page refresh)
+  - `event.currentTarget` (the form)
+  - `event.currentTarget[{id}]` get form element by id
+  - `event.currentTarget[{id}].value` get form element by id
+  - `event.currentTarget.reset()` reset the form
