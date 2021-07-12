@@ -74,5 +74,10 @@ Now that we have these items stripped out as JavaScript data, let's put them in 
     - now that we're using this value twice, we can can use object destructuring to help us remove the duplication
 
 - hook up `editTodoItemWithId` function
+
   - add a peice of state to indicate editing
   - use conditional in component to reveal editing
+  - make edit buttion conditionally show "check" or "cancel"
+    - any tim you return multiple elements, you need `React.Fragment`
+
+- edit one at a time

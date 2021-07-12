@@ -8,12 +8,33 @@ function App() {
     <li key={id}>
       {editable && <span>!editing!</span>}
       <span>{title}</span>
-      <button type="button" onClick={() => editTodoItemWithId(id)}>
-        ✏️
-      </button>
-      <button type="button" onClick={() => deleteTodoItemWithId(id)}>
-        🗑
-      </button>
+      {editable ? (
+        <React.Fragment>
+          {/* <button type="button" onClick={() => cancelEditingTodoItemWithId(id)}>
+            <span role="img" aria-label="complete edit">
+              ✅
+            </span>
+          </button> */}
+          <button type="button" onClick={() => cancelEditingTodoItemWithId(id)}>
+            <span role="img" aria-label="cancel edit">
+              ❌
+            </span>
+          </button>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <button type="button" onClick={() => editTodoItemWithId(id)}>
+            <span role="img" aria-label="edit">
+              ✏️
+            </span>
+          </button>
+          <button type="button" onClick={() => deleteTodoItemWithId(id)}>
+            <span role="img" aria-label="delete">
+              🗑
+            </span>
+          </button>
+        </React.Fragment>
+      )}
     </li>
   ));
 
@@ -31,6 +52,18 @@ function App() {
         (items, item) => [
           ...items,
           id == item.id ? { ...item, editable: true } : item,
+        ],
+        []
+      )
+    );
+  }
+
+  function cancelEditingTodoItemWithId(id) {
+    return updateTodoItems(
+      [...todoItems].reduce(
+        (items, item) => [
+          ...items,
+          id == item.id ? { ...item, editable: false } : item,
         ],
         []
       )
