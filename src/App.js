@@ -1,20 +1,35 @@
 import * as React from "react";
 import "./App.css";
 
-let visuallyHidden = {
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: "1px",
-  overflow: "hidden",
-  position: "absolute",
-  whiteSpace: "nowrap",
-  width: "1px",
-};
+function useAriaAnnounce() {
+  let announcement = React.useState("hey! we got a new one!");
+
+  let visuallyHidden = {
+    // clip: "rect(0 0 0 0)",
+    // clipPath: "inset(50%)",
+    // height: "1px",
+    // overflow: "hidden",
+    // position: "absolute",
+    // whiteSpace: "nowrap",
+    // width: "1px",
+  };
+
+  function PoliteAnnouncement(props) {
+    return (
+      <div role="status" aria-live="polite" style={visuallyHidden} {...props}>
+        {announcement}
+      </div>
+    );
+  }
+
+  return [PoliteAnnouncement];
+}
 
 function App() {
   let [todoItems, updateTodoItems] = React.useState([]);
   let [editingId, editTodoWithId] = React.useState(-1);
   let [announcement, setAnnouncement] = React.useState(null);
+  let [PoliteAnnouncement] = useAriaAnnounce();
 
   React.useEffect(() => {
     let latestAnnouncementCooldown = setTimeout(() => {
@@ -153,9 +168,7 @@ function App() {
 
         <ul>{todoItemElements}</ul>
 
-        <div role="status" aria-live="polite" style={visuallyHidden}>
-          {announcement}
-        </div>
+        <PoliteAnnouncement />
 
         <h2>Debugging</h2>
         <button type="button" onClick={() => updateTodoItems([])}>

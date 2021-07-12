@@ -140,6 +140,14 @@ As web developers we provide an equivalent experince for users of assistive tech
 
 Our component is already a but unruly, even with just a few features. We have state, we have functions to manipulate, and components to display it all inside a single component. And they _have_ to be that way because they all reference the same local state. In this next section, we're going to utilize React APIs that make colocating these concerns about state, and sharing it across components, much easier. We'll also remove a good ammount of the required namespacing and make these functions much more isolated and navigable.
 
+### Make a hook to encapsulate our new aria-live stuff
+
+- create `let [PoliteAnnouncement] = useAriaAnnounce()`;
+
+  - start slow, just move the component into position one
+  - move the styles in as well, since nothing else uses them, and disable them so we can se what's happening
+  - create some duplicate local state
+
 - use useReducer for editing state and state manipulation
 
   -
