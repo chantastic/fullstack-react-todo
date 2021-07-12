@@ -68,6 +68,11 @@ Now that we have these items stripped out as JavaScript data, let's put them in 
   - add `addTodoItem(title)` function and call it when form is submitted
   - now clear out our hard-coded state
 
-- hook up `deleteTodoItemById` function
+- hook up `deleteTodoItemWithId` function
+
   - add functioncall to button component, using id
     - now that we're using this value twice, we can can use object destructuring to help us remove the duplication
+
+- hook up `editTodoItemWithId` function
+  - add a peice of state to indicate editing
+  - use conditional in component to reveal editing

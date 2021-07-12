@@ -4,11 +4,14 @@ import "./App.css";
 function App() {
   let [todoItems, updateTodoItems] = React.useState([]);
 
-  let todoItemElements = todoItems.map(({ id, title }) => (
+  let todoItemElements = todoItems.map(({ id, title, editable }) => (
     <li key={id}>
+      {editable && <span>!editing!</span>}
       <span>{title}</span>
-      <button type="button">✏️</button>
-      <button type="button" onClick={() => deleteTodoItemById(id)}>
+      <button type="button" onClick={() => editTodoItemWithId(id)}>
+        ✏️
+      </button>
+      <button type="button" onClick={() => deleteTodoItemWithId(id)}>
         🗑
       </button>
     </li>
@@ -18,10 +21,25 @@ function App() {
     return updateTodoItems([...todoItems, { id: Date.now(), title: title }]);
   }
 
-  function deleteTodoItemById(id) {
-    console.log(id);
+  function deleteTodoItemWithId(id) {
     return updateTodoItems(todoItems.filter((item) => item.id !== id));
   }
+
+  function editTodoItemWithId(id) {
+    return updateTodoItems(
+      [...todoItems].reduce(
+        (items, item) => [
+          ...items,
+          id == item.id ? { ...item, editable: true } : item,
+        ],
+        []
+      )
+    );
+  }
+
+  // function updateTodoItemWithId(id, todo) {
+  //   return updateTodoItems(todoItems.filter((item) => item.id !== id));
+  // }
 
   function handleSubmit(event) {
     let text = event.currentTarget["new-item-input"].value.trim();
