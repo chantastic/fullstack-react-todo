@@ -3,12 +3,13 @@ import "./App.css";
 
 function App() {
   let [todoItems, updateTodoItems] = React.useState([]);
+  let [editingId, editTodoWithId] = React.useState(-1);
 
   let todoItemElements = todoItems.map((item) => (
     <li key={item.id}>
-      {item.editable ? (
+      {editingId === item.id ? (
         <React.Fragment>
-          <form onSubmit={(event) => handleItemEditingSubmit(event, item.id)}>
+          <form onSubmit={(event) => handleItemEditingSubmit(event, editingId)}>
             <label htmlFor="edit-todo-input">
               (should i visually hide this?)
             </label>
@@ -20,10 +21,7 @@ function App() {
               </span>
             </button>
 
-            <button
-              type="button"
-              onClick={() => cancelEditingTodoItemWithId(item.id)}
-            >
+            <button type="button" onClick={() => concludeEditing()}>
               <span role="img" aria-label="cancel edit">
                 ❌
               </span>
@@ -33,7 +31,7 @@ function App() {
       ) : (
         <React.Fragment>
           <span>{item.title}</span>
-          <button type="button" onClick={() => editTodoItemWithId(item.id)}>
+          <button type="button" onClick={() => editTodoWithId(item.id)}>
             <span role="img" aria-label="edit">
               ✏️
             </span>
@@ -56,36 +54,17 @@ function App() {
     return updateTodoItems(todoItems.filter((item) => item.id !== id));
   }
 
-  function editTodoItemWithId(id) {
-    return updateTodoItems(
-      todoItems.reduce(
-        (items, item) => [
-          ...items,
-          id === item.id ? { ...item, editable: true } : item,
-        ],
-        []
-      )
-    );
+  function concludeEditing() {
+    editTodoWithId(-1);
   }
 
-  function cancelEditingTodoItemWithId(id) {
+  function updateTodoItemWithId(id, text) {
+    concludeEditing();
     return updateTodoItems(
       todoItems.reduce(
         (items, item) => [
           ...items,
-          id === item.id ? { ...item, editable: false } : item,
-        ],
-        []
-      )
-    );
-  }
-
-  function completeEditingTodoItemWithId(id, text) {
-    return updateTodoItems(
-      todoItems.reduce(
-        (items, item) => [
-          ...items,
-          id === item.id ? { ...item, title: text, editable: false } : item,
+          id === item.id ? { ...item, title: text } : item,
         ],
         []
       )
@@ -93,12 +72,8 @@ function App() {
   }
 
   function handleItemEditingSubmit(event, itemId) {
-    console.log(event.currentTarget, itemId);
     event.preventDefault();
-    completeEditingTodoItemWithId(
-      itemId,
-      event.currentTarget["edit-todo-input"].value
-    );
+    updateTodoItemWithId(itemId, event.currentTarget["edit-todo-input"].value);
   }
 
   function handleSubmit(event) {

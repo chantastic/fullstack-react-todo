@@ -79,10 +79,21 @@ Now that we have these items stripped out as JavaScript data, let's put them in 
   - use conditional in component to reveal editing
 
 - add `cancelEditingTodoItemWithId` function
+
   - make edit buttion conditionally show "check" or "cancel"
     - any tim you return multiple elements, you need `React.Fragment`
 
 - add `completeEditingTodoItemWithId` function
+
   - add conditionally displayed `form` (this will actually split the render function "because sometimes it makes more sense to split the whole rendering than piecmeal it all together")
   - how to visually hide label???
   - crap, now i want a whole item object again. let's NOT destructure it earlier on in the lesson
+  - `handleEditingSubmit` passing along both the event and the item
+
+- tidy things up a bit by moving editing into a different state (editing only one at a time. but re-thinking it first)
+  - don't love that we're manipulating the objects and having to reset them. this will introduce some bizarre code to block on editing one at a time.
+  - (my goal wasn't to show you a wrong way to do it but show you what happens if you focus too much on mutating data instead of creating more state.)
+  - `[editing, editId] = React.useState(-1)`
+  - remove `editTodoItemWithId` because we now have that as our updater function
+  - leave `cancelEditingTodo` as a implementation convenience — is a weird API to reset `(-1)`
+  - update `updateTodoItemWithId` to call `concludeEditing`
