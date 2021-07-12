@@ -147,11 +147,22 @@ Our component is already a but unruly, even with just a few features. We have st
   - start slow, just move the component into position one
   - move the styles in as well, since nothing else uses them, and disable them so we can se what's happening
   - create some duplicate local state
+  - re-enable the styles
 
 - move `announcement` state, `useEffect` and `announce` function into the custom hook
 
   - expose them at position one,
   - update consumers
+
+- export data in first position
+
+  - make exported function more component more flexible
+    - accept `children`
+    - we can now control display from the outside
+    - take `As` prop allows us to just change the tag to strong
+    - delegation for style, using function
+    - now we can reconstruct everything from the outside
+    - NEXT steps: can i have a single announcment queue? or does it make sense to keep them very separate?
 
 - use useReducer for editing state and state manipulation
 

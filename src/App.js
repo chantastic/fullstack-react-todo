@@ -27,21 +27,30 @@ function useAriaAnnounce() {
     width: "1px",
   };
 
-  function PoliteAnnouncement(props) {
+  function PoliteAnnouncement({ as: As = "div", children, style, ...props }) {
     return (
-      <div role="status" aria-live="polite" style={visuallyHidden} {...props}>
-        {announcement}
-      </div>
+      <As
+        role="status"
+        aria-live="polite"
+        style={
+          typeof style === "function"
+            ? style(visuallyHidden)
+            : { ...visuallyHidden, ...style }
+        }
+        {...props}
+      >
+        {children || announcement}
+      </As>
     );
   }
 
-  return [announce, PoliteAnnouncement];
+  return [announcement, announce, PoliteAnnouncement];
 }
 
 function App() {
   let [todoItems, updateTodoItems] = React.useState([]);
   let [editingId, editTodoWithId] = React.useState(-1);
-  let [announce, PoliteAnnouncement] = useAriaAnnounce();
+  let [announcement, announce, PoliteAnnouncement] = useAriaAnnounce();
 
   function addTodoItem(title) {
     announce("Todo added!");
@@ -165,7 +174,15 @@ function App() {
 
         <ul>{todoItemElements}</ul>
 
-        <PoliteAnnouncement />
+        <PoliteAnnouncement
+          as={"strong"}
+          style={(vh) => ({
+            ...vh,
+            color: "red",
+          })}
+        >
+          {announcement}
+        </PoliteAnnouncement>
 
         <h2>Debugging</h2>
         <button type="button" onClick={() => updateTodoItems([])}>
