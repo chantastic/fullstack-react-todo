@@ -1,25 +1,45 @@
 import * as React from "react";
 import "./App.css";
 
+let visuallyHidden = {
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: "1px",
+  overflow: "hidden",
+  position: "absolute",
+  whiteSpace: "nowrap",
+  width: "1px",
+};
+
 function App() {
   let [todoItems, updateTodoItems] = React.useState([]);
   let [editingId, editTodoWithId] = React.useState(-1);
+  // let [announcement, announce] = React.useState("");
+  let [announcement, setAnnouncement] = React.useState(<span />);
+
+  function announce(announcement) {
+    setAnnouncement(
+      <span>
+        {announcement}
+        <span aria-hidden>{Date.now()}</span>
+      </span>
+    );
+  }
 
   // todo state functions
   function addTodoItem(title) {
+    announce("Todo updated!");
     return updateTodoItems([...todoItems, { id: Date.now(), title: title }]);
   }
 
   function deleteTodoItemWithId(id) {
-    if (
-      window.confirm(
-        `Are you sure you want to delete todo: ${
-          todoItems.find((item) => item.id === id).title
-        }`
-      )
-    ) {
-      return updateTodoItems(todoItems.filter((item) => item.id !== id));
-    }
+    let todo = todoItems.find((item) => item.id === id);
+    // we have a problem. the confirm interrupts the live region
+    // might need to set a tab focus first?
+    // if (window.confirm(`Are you sure you want to delete todo: ${todo.title}`)) {
+    announce(`Todo '${todo.title}' has been deleted.`);
+    return updateTodoItems(todoItems.filter((item) => item.id !== id));
+    // }
   }
 
   function updateTodoItemWithId(id, text) {
@@ -51,6 +71,8 @@ function App() {
     }
 
     addTodoItem(text);
+    announce(<span>Todo added!</span>);
+    // announce(`Todo added: ${text}`);
     event.currentTarget.reset();
   }
 
@@ -124,6 +146,10 @@ function App() {
         </form>
 
         <ul>{todoItemElements}</ul>
+
+        <div role="status" aria-live="polite" style={visuallyHidden}>
+          {announcement}
+        </div>
 
         <h2>Debugging</h2>
         <button type="button" onClick={() => updateTodoItems([])}>

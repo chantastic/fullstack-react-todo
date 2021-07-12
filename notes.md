@@ -107,6 +107,24 @@ Now that we have these items stripped out as JavaScript data, let's put them in 
   - update `updateTodoItemWithId` to call `concludeEditing`
   - now you can only edit one at a time
 
+## Providing an equivalent user experince to users of assistive technologies like screenreaders
+
+We have a problem. Right now srcreen users are the only ones that get feedback when a todo is created, updated or deleted.
+As web developers we provide an equivalent experince for users of assistive technologies like screen readers. We can achieve this with an additional state hook.
+
+- add an live region `<div role="status" aria-live="polite">{announcement}</div>`
+- https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions
+- add state
+- visually hide it, using a pre-made visually hidden style
+  - adapt it to object syntax
+  - https://www.a11yproject.com/posts/2013-01-11-how-to-hide-content/
+  - address that psuedo-selectors can't be used with inline CSS and will require a library or CSS integration
+  - if we want to ensure that things get red, they need to be unique. we can solve this in a few ways
+    - append the text `Todo added: ${text}`
+    - add element with hidden `Date.now()`
+- create an intermediate `announce` function to add the `Date.now()` call
+  - can still be text or elements
+
 ## Organization APIs group logical state and actions with `useReducer`
 
 Our component is already a but unruly, even with just a few features. We have state, we have functions to manipulate, and components to display it all inside a single component. And they _have_ to be that way because they all reference the same local state. In this next section, we're going to utilize React APIs that make colocating these concerns about state, and sharing it across components, much easier. We'll also remove a good ammount of the required namespacing and make these functions much more isolated and navigable.
