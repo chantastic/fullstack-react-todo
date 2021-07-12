@@ -180,5 +180,7 @@ Our component is already a but unruly, even with just a few features. We have st
 
   - migrate to useReducer by re-creating the useState functionality
     - `useReducer((_, nextTodos) => nextTodos, [])`
+    - relpace calls with dispatch functio
+      - dispatch function performs same task as before
 
 - …`useContext`, "controller components", `modularization`

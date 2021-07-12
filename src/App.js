@@ -4,8 +4,10 @@ import useEditingId from "./modules/use-editing-id";
 import "./App.css";
 
 function App() {
-  let [todoItems, updateTodoItems] = React.useReducer(
-    (_, nextTodos) => nextTodos,
+  let [todoItems, dispatchTodoAction] = React.useReducer(
+    (_, actionOrNextTodos) => {
+      if (Array.isArray(actionOrNextTodos)) return actionOrNextTodos;
+    },
     []
   );
   let [editingId, dispatchEditingAction] = useEditingId();
@@ -13,7 +15,7 @@ function App() {
 
   function addTodoItem(title) {
     announce("Todo added!");
-    return updateTodoItems([...todoItems, { id: Date.now(), title: title }]);
+    return dispatchTodoAction([...todoItems, { id: Date.now(), title: title }]);
   }
 
   function deleteTodoItemWithId(id) {
@@ -22,14 +24,14 @@ function App() {
     // might need to set a tab focus first?
     // if (window.confirm(`Are you sure you want to delete todo: ${todo.title}`)) {
     announce(`Todo '${todo.title}' has been deleted.`);
-    return updateTodoItems(todoItems.filter((item) => item.id !== id));
+    return dispatchTodoAction(todoItems.filter((item) => item.id !== id));
     // }
   }
 
   function updateTodoItemWithId(id, text) {
     dispatchEditingAction({ type: "CONCLUDE_EDITING" });
     announce(`Todo updated!`);
-    return updateTodoItems(
+    return dispatchTodoAction(
       todoItems.reduce(
         (items, item) => [
           ...items,
@@ -149,13 +151,13 @@ function App() {
         </PoliteAnnouncement>
 
         <h2>Debugging</h2>
-        <button type="button" onClick={() => updateTodoItems([])}>
+        <button type="button" onClick={() => dispatchTodoAction([])}>
           obliterate state
         </button>
         <button
           type="button"
           onClick={() =>
-            updateTodoItems([
+            dispatchTodoAction([
               { id: 100, title: "Learn React" },
               { id: 101, title: "Join Lunch Dev Discord" },
               { id: 102, title: "Listen to React Podcast" },
