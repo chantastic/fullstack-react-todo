@@ -49,7 +49,10 @@ function useAriaAnnounce() {
 
 function App() {
   let [todoItems, updateTodoItems] = React.useState([]);
-  let [editingId, editTodoWithId] = React.useState(-1);
+  let [editingId, editTodoWithId] = React.useReducer(
+    (_, nextValue) => nextValue,
+    -1
+  );
   let [announcement, announce, PoliteAnnouncement] = useAriaAnnounce();
 
   function addTodoItem(title) {

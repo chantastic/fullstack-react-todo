@@ -164,8 +164,11 @@ Our component is already a but unruly, even with just a few features. We have st
     - now we can reconstruct everything from the outside
     - NEXT steps: can i have a single announcment queue? or does it make sense to keep them very separate?
 
+- colocate all Editing state
+
 - use useReducer for editing state and state manipulation
 
-  -
+  - migrate to useReducer by re-creating the useState functionality
+    - `useReducer((_, nextValue) => nextValue, -1)`
 
 - …`useContext`, "controller components", `modularization`
