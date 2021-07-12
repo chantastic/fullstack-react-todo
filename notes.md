@@ -57,6 +57,7 @@
 Now that we have these items stripped out as JavaScript data, let's put them in a mutable object.
 
 - `React.useState` "hook"
+
   - needs to be at the top of the component function definition
     - just move the state in
   - `import * as React from "react"` imports all of the named and and default exports from the "react" npm modules. This import includes the types (if you're using typescript)
@@ -66,3 +67,7 @@ Now that we have these items stripped out as JavaScript data, let's put them in 
     - add a button that just calls the function with single todo
   - add `addTodoItem(title)` function and call it when form is submitted
   - now clear out our hard-coded state
+
+- hook up `deleteTodoItemById` function
+  - add functioncall to button component, using id
+    - now that we're using this value twice, we can can use object destructuring to help us remove the duplication

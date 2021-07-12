@@ -4,16 +4,23 @@ import "./App.css";
 function App() {
   let [todoItems, updateTodoItems] = React.useState([]);
 
-  let todoItemElements = todoItems.map((item) => (
-    <li key={item.id}>
-      <span>{item.title}</span>
+  let todoItemElements = todoItems.map(({ id, title }) => (
+    <li key={id}>
+      <span>{title}</span>
       <button type="button">✏️</button>
-      <button type="button">🗑</button>
+      <button type="button" onClick={() => deleteTodoItemById(id)}>
+        🗑
+      </button>
     </li>
   ));
 
   function addTodoItem(title) {
     return updateTodoItems([...todoItems, { id: Date.now(), title: title }]);
+  }
+
+  function deleteTodoItemById(id) {
+    console.log(id);
+    return updateTodoItems(todoItems.filter((item) => item.id !== id));
   }
 
   function handleSubmit(event) {
