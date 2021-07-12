@@ -14,21 +14,25 @@ let visuallyHidden = {
 function App() {
   let [todoItems, updateTodoItems] = React.useState([]);
   let [editingId, editTodoWithId] = React.useState(-1);
-  // let [announcement, announce] = React.useState("");
-  let [announcement, setAnnouncement] = React.useState(<span />);
+  let [announcement, setAnnouncement] = React.useState(null);
 
-  function announce(announcement) {
-    setAnnouncement(
-      <span>
-        {announcement}
-        <span aria-hidden>{Date.now()}</span>
-      </span>
-    );
-  }
+  React.useEffect(() => {
+    let latestAnnouncementCooldown = setTimeout(() => {
+      setAnnouncement(null);
+    }, 10_000);
+
+    return () => clearTimeout(latestAnnouncementCooldown);
+  }, [announcement]);
 
   // todo state functions
+
+  function announce(announcement) {
+    setAnnouncement(null);
+    setTimeout(() => setAnnouncement(announcement), 10);
+  }
+
   function addTodoItem(title) {
-    announce("Todo updated!");
+    announce("Todo added!");
     return updateTodoItems([...todoItems, { id: Date.now(), title: title }]);
   }
 
@@ -44,6 +48,7 @@ function App() {
 
   function updateTodoItemWithId(id, text) {
     concludeEditing();
+    announce(`Todo updated!`);
     return updateTodoItems(
       todoItems.reduce(
         (items, item) => [
@@ -71,8 +76,6 @@ function App() {
     }
 
     addTodoItem(text);
-    announce(<span>Todo added!</span>);
-    // announce(`Todo added: ${text}`);
     event.currentTarget.reset();
   }
 
@@ -88,10 +91,13 @@ function App() {
           <form
             onSubmit={(event) => handleEditTodoItemSubmit(event, editingId)}
           >
-            <label htmlFor="editTodo_title">
-              (should i visually hide this?)
-            </label>
-            <input type="text" defaultValue={item.title} id="editTodo_title" />
+            <input
+              aria-label="Edit todo"
+              type="text"
+              defaultValue={item.title}
+              id="editTodo_title"
+              autoFocus
+            />
 
             <button type="submit">
               <span role="img" aria-label="complete edit">

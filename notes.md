@@ -124,6 +124,17 @@ As web developers we provide an equivalent experince for users of assistive tech
     - add element with hidden `Date.now()`
 - create an intermediate `announce` function to add the `Date.now()` call
   - can still be text or elements
+- use wrapping function to do a set timeout that resets the event
+- next steps for the user: understand difference between polite and assertive. ensure they are different nodes!
+- warning. we can do all kinds of wild nonsense trying to figure out when to carefully update the DOM. or we can trust it and use `useEffect` with a properly used setup and cleanup function
+  - this does exactly what we want, leaves new messages up for 10 seconds then cleans up
+  - only want to run the function if announcement changes. and it turns out this isn't just looking at the value. because we can add it to inputs and even the same message will get it's full time.
+- talk about naming the `setTimeout` and how it can help bring clarity to the lifecycle event
+
+- set focus of edited
+  - `autoFocus` seems to work as first step. maybe revisit when this is split out as it's own component with own refs
+- what to do with label?
+  - use `aria-label` where the label doesn't need to be present
 
 ## Organization APIs group logical state and actions with `useReducer`
 
