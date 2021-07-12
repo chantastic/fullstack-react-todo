@@ -44,7 +44,22 @@
   - let's create an array of these elements
   - use our curlies (remember above) to interpolate those values into the `ul` item with JavaScript
 - we can remove the duplication by mapping over text values and applying the duplication
-  - this is just an Array, so we can call map on it with no change. `todoItems = [...].map()`
+  - this is just an Array, so we can call map on it with no change. `todoItemsElements = [...].map()`
   - now we can split the part that is different from the part that is the same:
     - `["Learn React", "Join Lunch Dev Discord", ...]`
     - `item => <li>...</li>`
+- `key` — anything guaranteed to be unique
+  - let's add an item id
+
+## 3 React state management
+
+Now that we have these items stripped out as JavaScript data, let's put them in a mutable object.
+
+- `React.useState` "hook"
+  - needs to be at the top of the component function definition
+    - just move the state in
+  - `import * as React from "react"` imports all of the named and and default exports from the "react" npm modules. This import includes the types (if you're using typescript)
+  - `[todoItems]` destructure the returned value
+  - `[todoItems, updateToDos]` — a single updater function for the state
+    - anything we put in here will obliterate the state with whatever we put in there
+    - add a button that just calls the function with single todo

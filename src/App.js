@@ -1,6 +1,21 @@
+import * as React from "react";
 import "./App.css";
 
 function App() {
+  let [todoItems, updateTodoItems] = React.useState([
+    { id: 100, name: "Learn React" },
+    { id: 101, name: "Join Lunch Dev Discord" },
+    { id: 102, name: "Listen to React Podcast" },
+  ]);
+
+  let todoItemElements = todoItems.map((item) => (
+    <li key={item.id}>
+      <span>{item.name}</span>
+      <button type="button">✏️</button>
+      <button type="button">🗑</button>
+    </li>
+  ));
+
   function handleSubmit(event) {
     let text = event.currentTarget["new-item-input"].value.trim();
 
@@ -14,18 +29,6 @@ function App() {
     event.currentTarget.reset();
   }
 
-  let todoItems = [
-    "Learn React",
-    "Join Lunch Dev Discord",
-    "Listen to React Podcast",
-  ].map((item) => (
-    <li>
-      <span>{item}</span>
-      <button type="button">✏️</button>
-      <button type="button">🗑</button>
-    </li>
-  ));
-
   return (
     <main>
       <form onSubmit={handleSubmit}>
@@ -34,7 +37,11 @@ function App() {
         <button type="submit">Add Todo</button>
       </form>
 
-      <ul>{todoItems}</ul>
+      <ul>{todoItemElements}</ul>
+
+      <button type="button" onClick={() => updateTodoItems([])}>
+        obliterate state
+      </button>
     </main>
   );
 }
