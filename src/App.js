@@ -49,8 +49,17 @@ function useAriaAnnounce() {
 
 function App() {
   let [todoItems, updateTodoItems] = React.useState([]);
-  let [editingId, dispatchEditingAction] = React.useReducer((state, action) => {
+  let [editingId, dispatchEditingAction] = React.useReducer((_, action) => {
     if (typeof action === "number") return action;
+
+    switch (action.type) {
+      case "CONCLUDE_EDITING":
+        return -1;
+      case "SET_EDITING_ID":
+        return action.id;
+      default:
+        break;
+    }
   }, -1);
   let [announcement, announce, PoliteAnnouncement] = useAriaAnnounce();
 
@@ -86,7 +95,7 @@ function App() {
   // editing state functions
   function concludeEditing() {
     // editTodoWithId(-1);
-    dispatchEditingAction(-1);
+    dispatchEditingAction({ type: "CONCLUDE_EDITING" });
   }
 
   // form handler functions
@@ -139,7 +148,12 @@ function App() {
       ) : (
         <React.Fragment>
           <span>{item.title}</span>
-          <button type="button" onClick={() => dispatchEditingAction(item.id)}>
+          <button
+            type="button"
+            onClick={() =>
+              dispatchEditingAction({ type: "SET_EDITING_ID", id: item.id })
+            }
+          >
             <span role="img" aria-label="edit">
               ✏️
             </span>

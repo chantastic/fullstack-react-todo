@@ -171,5 +171,6 @@ Our component is already a but unruly, even with just a few features. We have st
   - migrate to useReducer by re-creating the useState functionality
     - `useReducer((_, nextValue) => nextValue, -1)`
   - update everything to `dispatch`
+  - add `action.type` to dispatch
 
 - …`useContext`, "controller components", `modularization`
