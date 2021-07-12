@@ -77,7 +77,12 @@ Now that we have these items stripped out as JavaScript data, let's put them in 
 
   - add a peice of state to indicate editing
   - use conditional in component to reveal editing
+
+- add `cancelEditingTodoItemWithId` function
   - make edit buttion conditionally show "check" or "cancel"
     - any tim you return multiple elements, you need `React.Fragment`
 
-- edit one at a time
+- add `completeEditingTodoItemWithId` function
+  - add conditionally displayed `form` (this will actually split the render function "because sometimes it makes more sense to split the whole rendering than piecmeal it all together")
+  - how to visually hide label???
+  - crap, now i want a whole item object again. let's NOT destructure it earlier on in the lesson

@@ -4,31 +4,41 @@ import "./App.css";
 function App() {
   let [todoItems, updateTodoItems] = React.useState([]);
 
-  let todoItemElements = todoItems.map(({ id, title, editable }) => (
-    <li key={id}>
-      {editable && <span>!editing!</span>}
-      <span>{title}</span>
-      {editable ? (
+  let todoItemElements = todoItems.map((item) => (
+    <li key={item.id}>
+      {item.editable ? (
         <React.Fragment>
-          {/* <button type="button" onClick={() => cancelEditingTodoItemWithId(id)}>
-            <span role="img" aria-label="complete edit">
-              ✅
-            </span>
-          </button> */}
-          <button type="button" onClick={() => cancelEditingTodoItemWithId(id)}>
-            <span role="img" aria-label="cancel edit">
-              ❌
-            </span>
-          </button>
+          <form onSubmit={(event) => handleItemEditingSubmit(event, item.id)}>
+            <label htmlFor="edit-todo-input">
+              (should i visually hide this?)
+            </label>
+            <input type="text" defaultValue={item.title} id="edit-todo-input" />
+
+            <button type="submit">
+              <span role="img" aria-label="complete edit">
+                ✅
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => cancelEditingTodoItemWithId(item.id)}
+            >
+              <span role="img" aria-label="cancel edit">
+                ❌
+              </span>
+            </button>
+          </form>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <button type="button" onClick={() => editTodoItemWithId(id)}>
+          <span>{item.title}</span>
+          <button type="button" onClick={() => editTodoItemWithId(item.id)}>
             <span role="img" aria-label="edit">
               ✏️
             </span>
           </button>
-          <button type="button" onClick={() => deleteTodoItemWithId(id)}>
+          <button type="button" onClick={() => deleteTodoItemWithId(item.id)}>
             <span role="img" aria-label="delete">
               🗑
             </span>
@@ -48,10 +58,10 @@ function App() {
 
   function editTodoItemWithId(id) {
     return updateTodoItems(
-      [...todoItems].reduce(
+      todoItems.reduce(
         (items, item) => [
           ...items,
-          id == item.id ? { ...item, editable: true } : item,
+          id === item.id ? { ...item, editable: true } : item,
         ],
         []
       )
@@ -60,19 +70,36 @@ function App() {
 
   function cancelEditingTodoItemWithId(id) {
     return updateTodoItems(
-      [...todoItems].reduce(
+      todoItems.reduce(
         (items, item) => [
           ...items,
-          id == item.id ? { ...item, editable: false } : item,
+          id === item.id ? { ...item, editable: false } : item,
         ],
         []
       )
     );
   }
 
-  // function updateTodoItemWithId(id, todo) {
-  //   return updateTodoItems(todoItems.filter((item) => item.id !== id));
-  // }
+  function completeEditingTodoItemWithId(id, text) {
+    return updateTodoItems(
+      todoItems.reduce(
+        (items, item) => [
+          ...items,
+          id === item.id ? { ...item, title: text, editable: false } : item,
+        ],
+        []
+      )
+    );
+  }
+
+  function handleItemEditingSubmit(event, itemId) {
+    console.log(event.currentTarget, itemId);
+    event.preventDefault();
+    completeEditingTodoItemWithId(
+      itemId,
+      event.currentTarget["edit-todo-input"].value
+    );
+  }
 
   function handleSubmit(event) {
     let text = event.currentTarget["new-item-input"].value.trim();
