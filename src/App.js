@@ -11,7 +11,15 @@ function App() {
   }
 
   function deleteTodoItemWithId(id) {
-    return updateTodoItems(todoItems.filter((item) => item.id !== id));
+    if (
+      window.confirm(
+        `Are you sure you want to delete todo: ${
+          todoItems.find((item) => item.id === id).title
+        }`
+      )
+    ) {
+      return updateTodoItems(todoItems.filter((item) => item.id !== id));
+    }
   }
 
   function updateTodoItemWithId(id, text) {

@@ -78,6 +78,7 @@ Now that we have these items stripped out as JavaScript data, let's put them in 
 
   - add functioncall to button component, using id
     - now that we're using this value twice, we can can use object destructuring to help us remove the duplication
+  - add `window.confirm` pre-condition
 
 - hook up `editTodoItemWithId` function
 
