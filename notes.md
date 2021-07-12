@@ -148,6 +148,11 @@ Our component is already a but unruly, even with just a few features. We have st
   - move the styles in as well, since nothing else uses them, and disable them so we can se what's happening
   - create some duplicate local state
 
+- move `announcement` state, `useEffect` and `announce` function into the custom hook
+
+  - expose them at position one,
+  - update consumers
+
 - use useReducer for editing state and state manipulation
 
   -

@@ -2,16 +2,29 @@ import * as React from "react";
 import "./App.css";
 
 function useAriaAnnounce() {
-  let announcement = React.useState("hey! we got a new one!");
+  let [announcement, setAnnouncement] = React.useState(null);
+
+  React.useEffect(() => {
+    let latestAnnouncementCooldown = setTimeout(() => {
+      setAnnouncement(null);
+    }, 10_000);
+
+    return () => clearTimeout(latestAnnouncementCooldown);
+  }, [announcement]);
+
+  function announce(announcement) {
+    setAnnouncement(null);
+    setTimeout(() => setAnnouncement(announcement), 10);
+  }
 
   let visuallyHidden = {
-    // clip: "rect(0 0 0 0)",
-    // clipPath: "inset(50%)",
-    // height: "1px",
-    // overflow: "hidden",
-    // position: "absolute",
-    // whiteSpace: "nowrap",
-    // width: "1px",
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
+    height: "1px",
+    overflow: "hidden",
+    position: "absolute",
+    whiteSpace: "nowrap",
+    width: "1px",
   };
 
   function PoliteAnnouncement(props) {
@@ -22,29 +35,13 @@ function useAriaAnnounce() {
     );
   }
 
-  return [PoliteAnnouncement];
+  return [announce, PoliteAnnouncement];
 }
 
 function App() {
   let [todoItems, updateTodoItems] = React.useState([]);
   let [editingId, editTodoWithId] = React.useState(-1);
-  let [announcement, setAnnouncement] = React.useState(null);
-  let [PoliteAnnouncement] = useAriaAnnounce();
-
-  React.useEffect(() => {
-    let latestAnnouncementCooldown = setTimeout(() => {
-      setAnnouncement(null);
-    }, 10_000);
-
-    return () => clearTimeout(latestAnnouncementCooldown);
-  }, [announcement]);
-
-  // todo state functions
-
-  function announce(announcement) {
-    setAnnouncement(null);
-    setTimeout(() => setAnnouncement(announcement), 10);
-  }
+  let [announce, PoliteAnnouncement] = useAriaAnnounce();
 
   function addTodoItem(title) {
     announce("Todo added!");
