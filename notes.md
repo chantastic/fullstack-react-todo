@@ -174,5 +174,11 @@ Our component is already a but unruly, even with just a few features. We have st
   - update everything to `dispatch`
   - add `action.type` to dispatch
     - removes the implementation detail of `-1`
+  - extract module
+
+- use useReducer for todos state
+
+  - migrate to useReducer by re-creating the useState functionality
+    - `useReducer((_, nextTodos) => nextTodos, [])`
 
 - …`useContext`, "controller components", `modularization`

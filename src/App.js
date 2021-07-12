@@ -1,21 +1,14 @@
 import * as React from "react";
 import useAriaAnnounce from "./modules/use-aria-announce";
+import useEditingId from "./modules/use-editing-id";
 import "./App.css";
 
 function App() {
-  let [todoItems, updateTodoItems] = React.useState([]);
-  let [editingId, dispatchEditingAction] = React.useReducer((_, action) => {
-    if (typeof action === "number") return action;
-
-    switch (action.type) {
-      case "CONCLUDE_EDITING":
-        return -1;
-      case "SET_EDITING_ID":
-        return action.id;
-      default:
-        break;
-    }
-  }, -1);
+  let [todoItems, updateTodoItems] = React.useReducer(
+    (_, nextTodos) => nextTodos,
+    []
+  );
+  let [editingId, dispatchEditingAction] = useEditingId();
   let [announcement, announce, PoliteAnnouncement] = useAriaAnnounce();
 
   function addTodoItem(title) {
@@ -34,7 +27,7 @@ function App() {
   }
 
   function updateTodoItemWithId(id, text) {
-    concludeEditing();
+    dispatchEditingAction({ type: "CONCLUDE_EDITING" });
     announce(`Todo updated!`);
     return updateTodoItems(
       todoItems.reduce(
@@ -45,12 +38,6 @@ function App() {
         []
       )
     );
-  }
-
-  // editing state functions
-  function concludeEditing() {
-    // editTodoWithId(-1);
-    dispatchEditingAction({ type: "CONCLUDE_EDITING" });
   }
 
   // form handler functions
@@ -93,7 +80,12 @@ function App() {
               </span>
             </button>
 
-            <button type="button" onClick={() => concludeEditing()}>
+            <button
+              type="button"
+              onClick={() =>
+                dispatchEditingAction({ type: "CONCLUDE_EDITING" })
+              }
+            >
               <span role="img" aria-label="cancel edit">
                 ❌
               </span>
