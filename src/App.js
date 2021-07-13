@@ -3,10 +3,21 @@ import useAriaAnnounce from "./modules/use-aria-announce";
 import useEditingId from "./modules/use-editing-id";
 import "./App.css";
 
+function createTodoItem(title) {
+  return { id: Date.now(), title };
+}
+
 function App() {
   let [todoItems, dispatchTodoAction] = React.useReducer(
-    (_, actionOrNextTodos) => {
+    (currentTodos, actionOrNextTodos) => {
       if (Array.isArray(actionOrNextTodos)) return actionOrNextTodos;
+
+      switch (actionOrNextTodos.type) {
+        case "APPEND_CREATE":
+          return [...currentTodos, actionOrNextTodos.payload];
+        default:
+          return currentTodos;
+      }
     },
     []
   );
@@ -15,7 +26,10 @@ function App() {
 
   function addTodoItem(title) {
     announce("Todo added!");
-    return dispatchTodoAction([...todoItems, { id: Date.now(), title: title }]);
+    return dispatchTodoAction({
+      type: "APPEND_CREATE",
+      payload: createTodoItem(title),
+    });
   }
 
   function deleteTodoItemWithId(id) {

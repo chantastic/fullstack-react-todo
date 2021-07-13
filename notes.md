@@ -182,5 +182,7 @@ Our component is already a but unruly, even with just a few features. We have st
     - `useReducer((_, nextTodos) => nextTodos, [])`
     - relpace calls with dispatch functio
       - dispatch function performs same task as before
+    - re-write `addTodoItem` to utilize new API
+      - add creation function for new components
 
 - …`useContext`, "controller components", `modularization`
