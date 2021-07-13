@@ -1,5 +1,3 @@
-import * as React from "react";
-
 export function reducer(_, action) {
   switch (action.type) {
     case "CONCLUDE_EDITING":

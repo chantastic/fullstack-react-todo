@@ -1,5 +1,3 @@
-import * as React from "react";
-
 export function reducer(currentTodos, action) {
   switch (action.type) {
     case "APPEND_CREATE":
