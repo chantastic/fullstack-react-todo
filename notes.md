@@ -187,5 +187,12 @@ Our component is already a but unruly, even with just a few features. We have st
     - re-write `deleteTodoItemWithId` to utilize new API
     - re-write `updateTodoItemWithId` to utilize new API
   - use dispatch middelware to to handle async `announce` actions
+  - remove extranious functions
 
-- …`useContext`, "controller components", `modularization`
+"we're going to attack this module a little differently than the other ones"
+
+- create new `todo.js` module
+- extract reducer to module. this is an optimization that prevents it from having to be re-created on every call.
+- expose the reducer on Context via controller component
+
+(missed an opportunity for an error boundary in here. seem slike non-actions is a great place to do that)
