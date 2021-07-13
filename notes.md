@@ -186,5 +186,6 @@ Our component is already a but unruly, even with just a few features. We have st
       - add creation function for new components
     - re-write `deleteTodoItemWithId` to utilize new API
     - re-write `updateTodoItemWithId` to utilize new API
+  - use dispatch middelware to to handle async `announce` actions
 
 - …`useContext`, "controller components", `modularization`

@@ -9,22 +9,18 @@ function createTodoItem(title) {
 
 function App() {
   let [todoItems, dispatchTodoAction] = React.useReducer(
-    (currentTodos, actionOrNextTodos) => {
-      if (Array.isArray(actionOrNextTodos)) return actionOrNextTodos;
-
-      switch (actionOrNextTodos.type) {
+    (currentTodos, action) => {
+      switch (action.type) {
         case "APPEND_CREATE":
-          return [...currentTodos, actionOrNextTodos.payload];
+          return [...currentTodos, action.payload];
         case "DELETE":
-          return currentTodos.filter(
-            (item) => item.id !== actionOrNextTodos.payload
-          );
+          return currentTodos.filter((item) => item.id !== action.payload);
         case "UPDATE":
           return currentTodos.reduce(
             (items, item) => [
               ...items,
-              actionOrNextTodos.payload.id === item.id
-                ? { ...item, title: actionOrNextTodos.payload.text }
+              action.payload.id === item.id
+                ? { ...item, title: action.payload.text }
                 : item,
             ],
             []
