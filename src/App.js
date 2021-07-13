@@ -42,34 +42,30 @@ function App() {
   let [editingId, dispatchEditingAction] = useEditingId();
   let [announcement, announce, PoliteAnnouncement] = useAriaAnnounce();
 
-  function addTodoItem(title) {
-    announce("Todo added!");
-    return dispatchTodoAction({
-      type: "APPEND_CREATE",
-      payload: createTodoItem(title),
-    });
+  function announceMiddleware(dispatch) {
+    return (action) => {
+      switch (action.type) {
+        case "APPEND_CREATE":
+          announce("Todo added!");
+          dispatch(action);
+          break;
+        case "DELETE":
+          announce(`Todo deleted.`);
+          dispatch(action);
+          break;
+        case "UPDATE":
+          dispatchEditingAction({ type: "CONCLUDE_EDITING" });
+          announce(`Todo updated!`);
+          dispatch(action);
+          break;
+        default:
+          break;
+      }
+    };
   }
 
-  function deleteTodoItemWithId(id) {
-    // we have a problem. the confirm interrupts the live region
-    // might need to set a tab focus first?
-    // if (window.confirm(`Are you sure you want to delete todo: ${todo.title}`)) { ... }
+  let dispatchComposedTodoAction = announceMiddleware(dispatchTodoAction);
 
-    let todo = todoItems.find((item) => item.id === id);
-    announce(`Todo '${todo.title}' has been deleted.`);
-    return dispatchTodoAction({ type: "DELETE", payload: id });
-  }
-
-  function updateTodoItemWithId(id, text) {
-    dispatchEditingAction({ type: "CONCLUDE_EDITING" });
-    announce(`Todo updated!`);
-    return dispatchTodoAction({
-      type: "UPDATE",
-      payload: { id, text },
-    });
-  }
-
-  // form handler functions
   function handleNewTodoItemSubmit(event) {
     let text = event.currentTarget.newTodo_title.value.trim();
 
@@ -79,13 +75,20 @@ function App() {
       return alert("Can't add blank todos...");
     }
 
-    addTodoItem(text);
+    dispatchComposedTodoAction({
+      type: "APPEND_CREATE",
+      payload: createTodoItem(text),
+    });
+
     event.currentTarget.reset();
   }
 
   function handleEditTodoItemSubmit(event, itemId) {
     event.preventDefault();
-    updateTodoItemWithId(itemId, event.currentTarget.editTodo_title.value);
+    dispatchComposedTodoAction({
+      type: "UPDATE",
+      payload: { id: itemId, text: event.currentTarget.editTodo_title.value },
+    });
   }
 
   let todoItemElements = todoItems.map((item) => (
@@ -134,7 +137,15 @@ function App() {
               ✏️
             </span>
           </button>
-          <button type="button" onClick={() => deleteTodoItemWithId(item.id)}>
+          <button
+            type="button"
+            onClick={() =>
+              dispatchComposedTodoAction({
+                type: "DELETE",
+                payload: item.id,
+              })
+            }
+          >
             <span role="img" aria-label="delete">
               🗑
             </span>
