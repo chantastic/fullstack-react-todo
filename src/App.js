@@ -19,6 +19,24 @@ function App() {
           return currentTodos.filter(
             (item) => item.id !== actionOrNextTodos.payload
           );
+        case "UPDATE":
+          return currentTodos.reduce(
+            (items, item) => [
+              ...items,
+              actionOrNextTodos.payload.id === item.id
+                ? { ...item, title: actionOrNextTodos.payload.text }
+                : item,
+            ],
+            []
+          );
+        case "DEBUG:CLEAR":
+          return [];
+        case "DEBUG:SEED":
+          return [
+            { id: 100, title: "Learn React" },
+            { id: 101, title: "Join Lunch Dev Discord" },
+            { id: 102, title: "Listen to React Podcast" },
+          ];
         default:
           return currentTodos;
       }
@@ -49,15 +67,10 @@ function App() {
   function updateTodoItemWithId(id, text) {
     dispatchEditingAction({ type: "CONCLUDE_EDITING" });
     announce(`Todo updated!`);
-    return dispatchTodoAction(
-      todoItems.reduce(
-        (items, item) => [
-          ...items,
-          id === item.id ? { ...item, title: text } : item,
-        ],
-        []
-      )
-    );
+    return dispatchTodoAction({
+      type: "UPDATE",
+      payload: { id, text },
+    });
   }
 
   // form handler functions
@@ -169,20 +182,23 @@ function App() {
         </PoliteAnnouncement>
 
         <h2>Debugging</h2>
-        <button type="button" onClick={() => dispatchTodoAction([])}>
-          obliterate state
+        <button
+          type="button"
+          onClick={() => {
+            announce("All todos removed.");
+            dispatchTodoAction({ type: "DEBUG:CLEAR" });
+          }}
+        >
+          CLEAR
         </button>
         <button
           type="button"
-          onClick={() =>
-            dispatchTodoAction([
-              { id: 100, title: "Learn React" },
-              { id: 101, title: "Join Lunch Dev Discord" },
-              { id: 102, title: "Listen to React Podcast" },
-            ])
-          }
+          onClick={() => {
+            announce("Todo list replaced with sample data.");
+            dispatchTodoAction({ type: "DEBUG:SEED" });
+          }}
         >
-          seed state
+          SEED
         </button>
       </main>
     </div>

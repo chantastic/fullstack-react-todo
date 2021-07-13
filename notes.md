@@ -184,5 +184,7 @@ Our component is already a but unruly, even with just a few features. We have st
       - dispatch function performs same task as before
     - re-write `addTodoItem` to utilize new API
       - add creation function for new components
+    - re-write `deleteTodoItemWithId` to utilize new API
+    - re-write `updateTodoItemWithId` to utilize new API
 
 - …`useContext`, "controller components", `modularization`
