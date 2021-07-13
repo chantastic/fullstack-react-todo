@@ -1,6 +1,6 @@
 import * as React from "react";
 import useAriaAnnounce from "./modules/use-aria-announce";
-import useEditingId from "./modules/use-editing-id";
+import { editingReducer } from "./modules/editing";
 import { todosReducer } from "./modules/todo";
 import "./App.css";
 
@@ -10,7 +10,7 @@ function createTodoItem(title) {
 
 function App() {
   let [todoItems, dispatchTodoAction] = React.useReducer(todosReducer, []);
-  let [editingId, dispatchEditingAction] = useEditingId();
+  let [editingId, dispatchEditingAction] = React.useReducer(editingReducer, -1);
   let [announcement, announce, PoliteAnnouncement] = useAriaAnnounce();
 
   function announceMiddleware(dispatch) {
