@@ -1,41 +1,46 @@
 import * as React from "react";
 import useAriaAnnounce from "./modules/use-aria-announce";
-import { editingReducer } from "./modules/editing";
-import { todosReducer } from "./modules/todo";
+import * as Editing from "./modules/editing";
+import * as Todos from "./modules/todo";
 import "./App.css";
 
 function createTodoItem(title) {
   return { id: Date.now(), title };
 }
 
+function announceMiddleware(dispatch, announce = console.info) {
+  return (action) => {
+    switch (action.type) {
+      case "APPEND_CREATE":
+        announce("Todo added!");
+        dispatch(action);
+        break;
+      case "DELETE":
+        announce(`Todo deleted.`);
+        dispatch(action);
+        break;
+      case "UPDATE":
+        announce(`Todo updated!`);
+        dispatch(action);
+        break;
+      default:
+        break;
+    }
+  };
+}
+
 function App() {
-  let [todoItems, dispatchTodoAction] = React.useReducer(todosReducer, []);
-  let [editingId, dispatchEditingAction] = React.useReducer(editingReducer, -1);
+  let [todoItems, dispatchTodoAction] = React.useReducer(Todos.reducer, []);
+  let [editingId, dispatchEditingAction] = React.useReducer(
+    Editing.reducer,
+    -1
+  );
   let [announcement, announce, PoliteAnnouncement] = useAriaAnnounce();
 
-  function announceMiddleware(dispatch) {
-    return (action) => {
-      switch (action.type) {
-        case "APPEND_CREATE":
-          announce("Todo added!");
-          dispatch(action);
-          break;
-        case "DELETE":
-          announce(`Todo deleted.`);
-          dispatch(action);
-          break;
-        case "UPDATE":
-          dispatchEditingAction({ type: "CONCLUDE_EDITING" });
-          announce(`Todo updated!`);
-          dispatch(action);
-          break;
-        default:
-          break;
-      }
-    };
-  }
-
-  let dispatchComposedTodoAction = announceMiddleware(dispatchTodoAction);
+  let dispatchComposedTodoAction = announceMiddleware(
+    dispatchTodoAction,
+    announce
+  );
 
   function handleNewTodoItemSubmit(event) {
     let text = event.currentTarget.newTodo_title.value.trim();
@@ -56,6 +61,7 @@ function App() {
 
   function handleEditTodoItemSubmit(event, itemId) {
     event.preventDefault();
+    dispatchEditingAction({ type: "CONCLUDE_EDITING" });
     dispatchComposedTodoAction({
       type: "UPDATE",
       payload: { id: itemId, text: event.currentTarget.editTodo_title.value },

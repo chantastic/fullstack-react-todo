@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export function editingReducer(_, action) {
+export function reducer(_, action) {
   switch (action.type) {
     case "CONCLUDE_EDITING":
       return -1;

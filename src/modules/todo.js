@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export function todosReducer(currentTodos, action) {
+export function reducer(currentTodos, action) {
   switch (action.type) {
     case "APPEND_CREATE":
       return [...currentTodos, action.payload];
