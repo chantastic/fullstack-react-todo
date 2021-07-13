@@ -15,6 +15,10 @@ function App() {
       switch (actionOrNextTodos.type) {
         case "APPEND_CREATE":
           return [...currentTodos, actionOrNextTodos.payload];
+        case "DELETE":
+          return currentTodos.filter(
+            (item) => item.id !== actionOrNextTodos.payload
+          );
         default:
           return currentTodos;
       }
@@ -33,13 +37,13 @@ function App() {
   }
 
   function deleteTodoItemWithId(id) {
-    let todo = todoItems.find((item) => item.id === id);
     // we have a problem. the confirm interrupts the live region
     // might need to set a tab focus first?
-    // if (window.confirm(`Are you sure you want to delete todo: ${todo.title}`)) {
+    // if (window.confirm(`Are you sure you want to delete todo: ${todo.title}`)) { ... }
+
+    let todo = todoItems.find((item) => item.id === id);
     announce(`Todo '${todo.title}' has been deleted.`);
-    return dispatchTodoAction(todoItems.filter((item) => item.id !== id));
-    // }
+    return dispatchTodoAction({ type: "DELETE", payload: id });
   }
 
   function updateTodoItemWithId(id, text) {
